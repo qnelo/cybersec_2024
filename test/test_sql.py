@@ -8,6 +8,8 @@ sql_injections = [
     "' OR '1'='1",
     "'; EXEC xp_cmdshell('dir') --",
     "'; SHUTDOWN --",
+    " ORDER BY 1--",
+    " admin' --",
     "' OR 1=1 --",
     "' OR 'a'='a",
     "' OR '1'='1' --",
@@ -29,13 +31,19 @@ sql_injections = [
     "'; EXEC xp_cmdshell('net user hacker hacker /add') --"
 ]
 
+valid_input_list = [
+    "dropbox",
+    "organization"
+]
+
 
 class TestSQLInjectionValidator(unittest.TestCase):
     """SQL Injection Validator test cases"""
 
     def test_user_input_with_valid_data(self):
         """Test user_input with valid data"""
-        self.assertTrue(sql_user_input("valid input"))
+        for valid_input in valid_input_list:
+            self.assertTrue(sql_user_input(valid_input))
 
     def test_user_input_with_sql_injection(self):
         """Test user_input with SQL injection patterns"""
